@@ -18,7 +18,6 @@ namespace ConsultasLINQ
         public Alumnos()
         {
             InitializeComponent();
-            txtAlumnoID.Focus();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -45,6 +44,7 @@ namespace ConsultasLINQ
             btnAgregar.Enabled = false;
             btnGuardar.Enabled = true;
             btnActualizar.Enabled = false;
+            btnCancelar.Enabled = true;
             btnEliminar.Enabled = false;
 
             txtAlumnoID.Enabled = false;
@@ -69,6 +69,7 @@ namespace ConsultasLINQ
             btnAgregar.Enabled = false;
             btnGuardar.Enabled = true;
             btnActualizar.Enabled = false;
+            btnCancelar.Enabled = true;
             btnEliminar.Enabled = false;
 
             txtAlumnoID.Enabled = false;
@@ -96,6 +97,7 @@ namespace ConsultasLINQ
 
                 btnBuscar.Enabled = true;
                 btnAgregar.Enabled = true;
+                btnCancelar.Enabled = false;
                 btnGuardar.Enabled = false;
 
                 txtAlumnoID.Enabled = true;
@@ -169,6 +171,52 @@ namespace ConsultasLINQ
                 MessageBox.Show("Solo puedes ingresar letras en este campo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Handled = true;
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            btnBuscar.Enabled = true;
+            btnAgregar.Enabled = true;
+            btnGuardar.Enabled = false;
+            btnCancelar.Enabled = false;
+
+            txtAlumnoID.Enabled = true;
+            txtNombre.Enabled = false;
+            txtDirección.Enabled = false;
+            txtEdad.Enabled = false;
+            txtCarrera.Enabled = false;
+
+            if (acción == "agregar")
+            {
+                txtAlumnoID.Text = "";
+                txtNombre.Text = "";
+                txtDirección.Text = "";
+                txtEdad.Text = "";
+                txtCarrera.Text = "";
+            } else if (acción == "actualizar")
+            {
+                if (txtAlumnoID.Text != "")
+                {
+                    objAlumno.BuscarAlumno(txtAlumnoID, txtNombre, txtDirección, txtEdad, txtCarrera);
+                    if (txtAlumnoID.Text != "")
+                    {
+                        btnActualizar.Enabled = true;
+                        btnEliminar.Enabled = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debes ingresar un ID de alumno", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            
+            acción = "";
+            txtAlumnoID.Focus();
+        }
+
+        private void Alumnos_Load(object sender, EventArgs e)
+        {
+            txtAlumnoID.Focus();
         }
     }
 }
